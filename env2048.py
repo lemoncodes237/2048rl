@@ -154,14 +154,3 @@ class Game:
                     game_end_board = self.boards[index]
         
         return game_end, game_end_board, reward
-
-def main():
-    game = Game(2)
-    for i in range(1000):
-        game_over, _, _ = game.move(random.randint(0, 3))
-        if game_over:
-            print(game.boards[0], "\n", game.boards[1])
-            break
-
-
-main()
