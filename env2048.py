@@ -57,12 +57,9 @@ class Game:
                 if board[i, j] == 0:
                     return False
         return True
-    
-    # 0 = Up, 1 = Down, 2 = Right, 3 = Left
-    # Returns gameOver, gameOverBoard
-    def move(self, dir):
-        game_end = False
-        game_end_board = None
+
+    def move_without_spawn(self, dir):
+        changed_per_board = []
 
         for index in range(self.num_boards):
             board = self.boards[index]
@@ -82,23 +79,34 @@ class Game:
 
                 changed = changed or moved
             
-            if not changed:
-                continue
-            
-            self.boards[index] = self.gen_random(board)
+            changed_per_board.append(changed)
+        
+        return changed_per_board
+    
+    # 0 = Up, 1 = Down, 2 = Right, 3 = Left
+    # Returns gameOver, gameOverBoard
+    def move(self, dir):
+        game_end = False
+        game_end_board = None
 
-            if self.game_over(board):
-                game_end = True
-                game_end_board = board
+        changed = self.move_without_spawn(dir)
+
+        for index in range(self.num_boards):
+            if changed[index]:
+                self.boards[index] = self.gen_random(self.boards[index])
+
+                if self.game_over(self.boards[index]):
+                    game_end = True
+                    game_end_board = self.boards[index]
         
         return game_end, game_end_board
 
 def main():
-    game = Game(1)
+    game = Game(2)
     for i in range(1000):
         game_over, _ = game.move(random.randint(0, 3))
         if game_over:
-            print(_)
+            print(game.boards[0], "\n", game.boards[1])
             break
 
 
