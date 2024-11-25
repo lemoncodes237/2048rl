@@ -1,5 +1,40 @@
 import numpy as np
 import random
+import pygame
+import time
+import argparse
+from copy import deepcopy
+import math
+
+COLORS = {
+    0: (205, 193, 180),     # Empty cell
+    2: (238, 228, 218),
+    4: (237, 224, 200),
+    8: (242, 177, 121),
+    16: (245, 149, 99),
+    32: (246, 124, 95),
+    64: (246, 94, 59),
+    128: (237, 207, 114),
+    256: (237, 204, 97),
+    512: (237, 200, 80),
+    1024: (237, 197, 63),
+    2048: (237, 194, 46)
+}
+
+TEXT_COLORS = {
+    0: (205, 193, 180),
+    2: (119, 110, 101),
+    4: (119, 110, 101),
+    8: (249, 246, 242),
+    16: (249, 246, 242),
+    32: (249, 246, 242),
+    64: (249, 246, 242),
+    128: (249, 246, 242),
+    256: (249, 246, 242),
+    512: (249, 246, 242),
+    1024: (249, 246, 242),
+    2048: (249, 246, 242)
+}
 
 class Game:
 
@@ -21,11 +56,14 @@ class Game:
         board[zeros[0][index], zeros[1][index]] = new
         return board
 
-    def __init__(self, num_boards):
+    def __init__(self, num_boards, animate=False):
         self.num_boards = num_boards
+        self.animate = animate
         self.boards = []
+        self.previous_boards = []
         for i in range(num_boards):
             self.boards.append(self.gen_random(self.gen_random(np.zeros((4, 4)))))
+            self.previous_boards.append(np.zeros((4, 4)))
 
     '''
     @def move_line
