@@ -37,6 +37,15 @@ TEXT_COLORS = {
 }
 
 class Game:
+
+    '''
+    @def gen_random
+    @params: self, board
+        Generates a random tile on `board`. The random tile is 2 with 9/10 probability and 4 with 1/10 probability.
+
+        Return:
+            board: The new board after the random tile was placed.
+    '''
     def gen_random(self, board):
         zeros = np.where(board == 0)
         nEmpty = zeros[0].size
@@ -56,9 +65,20 @@ class Game:
             self.boards.append(self.gen_random(self.gen_random(np.zeros((4, 4)))))
             self.previous_boards.append(np.zeros((4, 4)))
 
+    '''
+    @def move_line
+    @params: self, line
+        Takes in a length 4 list and moves everything in the list to the right, merging as necessary.
+
+        Return:
+            line: The new line after the move
+            moved: Whether the move changed anything on the line
+            score: Total scores earned by the move
+    '''
     def move_line(self, line):
         end = 3
         moved = False
+        score = 0
         for i in range(2, -1, -1):
             if line[i] == 0:
                 continue
@@ -72,6 +92,7 @@ class Game:
                 moved = True
                 line[end] *= 2
                 line[i] = 0
+                score += line[end]
             elif line[end - 1] == 0:
                 moved = True
                 line[end - 1] = line[i]
@@ -79,8 +100,15 @@ class Game:
             
             end -= 1
             
-        return line, moved
+        return line, moved, score
     
+    '''
+    @def game_over
+    @params: self, board
+        Checks if no more moves can be made on `board`.
+
+        Returns True if the board is in a game over state, False otherwise.
+    '''
     def game_over(self, board):
         for i in range(4):
             for j in range(4):
@@ -96,8 +124,22 @@ class Game:
                     return False
         return True
 
+    '''
+    @def move_without_spawn
+    @params: self, dir
+        Moves the every board in `self.board` according to the direction indicated by `dir`.
+        The direction is encoded as 0 = Up, 1 = Down, 2 = Right, 3 = Left.
+        This function does not spawn a random tile after a move.
+
+        Return:
+            changed_per_board: Returns list containing whether each board has changed from the move or not.
+            reward: Total points scored from the move
+            change_occurred: Boolean representing whether any board changed from the move or not.
+    '''
     def move_without_spawn(self, dir):
         changed_per_board = []
+        reward = 0
+        change_occurred = False
 
         for index in range(self.num_boards):
             board = self.boards[index]
@@ -107,27 +149,39 @@ class Game:
 
             for i in range(4):
                 if dir == 0:
-                    board[::-1,i], moved = self.move_line(board[::-1,i])
+                    board[::-1,i], moved, score = self.move_line(board[::-1,i])
                 if dir == 1:
-                    board[:,i], moved = self.move_line(board[:,i])
+                    board[:,i], moved, score = self.move_line(board[:,i])
                 if dir == 2:
-                    board[i,:], moved = self.move_line(board[i,:])
+                    board[i,:], moved, score = self.move_line(board[i,:])
                 if dir == 3:
-                    board[i,::-1], moved = self.move_line(board[i,::-1])
+                    board[i,::-1], moved, score = self.move_line(board[i,::-1])
 
                 changed = changed or moved
+                reward += score
             
             changed_per_board.append(changed)
+            change_occurred = change_occurred or changed
         
-        return changed_per_board
+        return changed_per_board, reward, change_occurred
     
-    # 0 = Up, 1 = Down, 2 = Right, 3 = Left
-    # Returns gameOver, gameOverBoard
+    '''
+    @def move
+    @params: self, dir
+        Moves the every board in `self.board` according to the direction indicated by `dir`.
+        The direction is encoded as 0 = Up, 1 = Down, 2 = Right, 3 = Left.
+        This function spawns a random tile after the move.
+
+        Return:
+            game_end: Boolean indicating whether the game is over
+            game_end_board: If `game_end` is true, contains a board that caused the game over
+            reward: Total points gained from the move.
+    '''
     def move(self, dir):
         game_end = False
         game_end_board = None
 
-        changed = self.move_without_spawn(dir)
+        changed, reward, _ = self.move_without_spawn(dir)
 
         for index in range(self.num_boards):
             if changed[index]:
@@ -137,7 +191,7 @@ class Game:
                     game_end = True
                     game_end_board = self.boards[index]
         
-        return game_end, game_end_board
+        return game_end, game_end_board, reward
 
     def calculate_board_size(self, screen_width, screen_height, num_boards):
         """Calculate the optimal board size and layout based on screen dimensions"""
@@ -261,6 +315,7 @@ class Game:
             )
 
 def main():
+
     parser = argparse.ArgumentParser(description='2048 Game Visualization')
     parser.add_argument('--animate', action='store_true', help='Enable animations')
     parser.add_argument('--num_boards', type=int, default=4, help='Number of boards to display')
@@ -294,13 +349,13 @@ def main():
                     game.previous_boards = [board.copy() for board in game.boards]
                     
                     if event.key == pygame.K_UP:
-                        game_over, _ = game.move(0)
+                        game_over, _, _ = game.move(0)
                     elif event.key == pygame.K_DOWN:
-                        game_over, _ = game.move(1)
+                        game_over, _, _ = game.move(1)
                     elif event.key == pygame.K_RIGHT:
-                        game_over, _ = game.move(2)
+                        game_over, _, _ = game.move(2)
                     elif event.key == pygame.K_LEFT:
-                        game_over, _ = game.move(3)
+                        game_over, _, _= game.move(3)
                     
                     if game.animate:
                         animation_time = current_time
