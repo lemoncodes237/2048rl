@@ -21,6 +21,7 @@ class Game:
     def move_line(self, line):
         end = 3
         moved = False
+        score = 0
         for i in range(2, -1, -1):
             if line[i] == 0:
                 continue
@@ -34,6 +35,7 @@ class Game:
                 moved = True
                 line[end] *= 2
                 line[i] = 0
+                score += line[end]
             elif line[end - 1] == 0:
                 moved = True
                 line[end - 1] = line[i]
@@ -41,7 +43,7 @@ class Game:
             
             end -= 1
             
-        return line, moved
+        return line, moved, score
     
     def game_over(self, board):
         for i in range(4):
@@ -60,6 +62,7 @@ class Game:
 
     def move_without_spawn(self, dir):
         changed_per_board = []
+        reward = 0
 
         for index in range(self.num_boards):
             board = self.boards[index]
@@ -69,19 +72,20 @@ class Game:
 
             for i in range(4):
                 if dir == 0:
-                    board[::-1,i], moved = self.move_line(board[::-1,i])
+                    board[::-1,i], moved, score = self.move_line(board[::-1,i])
                 if dir == 1:
-                    board[:,i], moved = self.move_line(board[:,i])
+                    board[:,i], moved, score = self.move_line(board[:,i])
                 if dir == 2:
-                    board[i,:], moved = self.move_line(board[i,:])
+                    board[i,:], moved, score = self.move_line(board[i,:])
                 if dir == 3:
-                    board[i,::-1], moved = self.move_line(board[i,::-1])
+                    board[i,::-1], moved, score = self.move_line(board[i,::-1])
 
                 changed = changed or moved
+                reward += score
             
             changed_per_board.append(changed)
         
-        return changed_per_board
+        return changed_per_board, reward
     
     # 0 = Up, 1 = Down, 2 = Right, 3 = Left
     # Returns gameOver, gameOverBoard
@@ -89,7 +93,7 @@ class Game:
         game_end = False
         game_end_board = None
 
-        changed = self.move_without_spawn(dir)
+        changed, reward = self.move_without_spawn(dir)
 
         for index in range(self.num_boards):
             if changed[index]:
@@ -99,12 +103,12 @@ class Game:
                     game_end = True
                     game_end_board = self.boards[index]
         
-        return game_end, game_end_board
+        return game_end, game_end_board, reward
 
 def main():
     game = Game(2)
     for i in range(1000):
-        game_over, _ = game.move(random.randint(0, 3))
+        game_over, _, _ = game.move(random.randint(0, 3))
         if game_over:
             print(game.boards[0], "\n", game.boards[1])
             break
