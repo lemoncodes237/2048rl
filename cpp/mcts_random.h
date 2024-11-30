@@ -1,7 +1,6 @@
 // mcts_random.h
 #pragma once
-#include "env.h"
-#include <memory>
+#include "env2048.h"
 
 class MCTSRandom {
 public:
@@ -11,7 +10,7 @@ public:
     const Game2048& getGame() const { return game; }
 
 private:
-    int randomToEnd(int move);
+    int randomToEnd(Game2048& gameCopy);
     
     Game2048 game;
     int simulations;

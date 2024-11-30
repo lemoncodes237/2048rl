@@ -1,10 +1,12 @@
 // env2048.cpp
-#include "env.h"
+#include "env2048.h"
 #include <algorithm>
 #include <ctime>
 
-Game2048::Game2048(int numBoards) : numBoards(numBoards), rng(std::time(nullptr)) {
-    boards.resize(numBoards, std::vector<int>(16, 0));  // Flat 4x4 boards
+Game2048::Game2048(int numBoards) : 
+    numBoards(numBoards),
+    boards(numBoards, std::vector<int>(16, 0)),
+    rng(std::time(nullptr)) {
     for (auto& board : boards) {
         genRandom(board);
         genRandom(board);
@@ -65,9 +67,7 @@ Game2048::MoveResult Game2048::moveWithoutSpawn(int direction) {
     result.gameOver = false;
     result.changed = false;
     result.reward = 0;
-    result.changedPerBoard.resize(numBoards);
 
-    #pragma omp parallel for reduction(+:result.reward) schedule(dynamic)
     for (int b = 0; b < numBoards; b++) {
         bool boardChanged = false;
         auto& board = boards[b];
@@ -114,7 +114,6 @@ Game2048::MoveResult Game2048::moveWithoutSpawn(int direction) {
             }
         }
         
-        result.changedPerBoard[b] = boardChanged;
         result.changed |= boardChanged;
     }
     
@@ -124,12 +123,12 @@ Game2048::MoveResult Game2048::moveWithoutSpawn(int direction) {
 Game2048::MoveResult Game2048::move(int direction) {
     auto result = moveWithoutSpawn(direction);
     
-    #pragma omp parallel for
-    for (int b = 0; b < numBoards; b++) {
-        if (result.changedPerBoard[b]) {
-            genRandom(boards[b]);
-            if (isGameOver(boards[b])) {
+    if (result.changed) {
+        for (auto& board : boards) {
+            genRandom(board);
+            if (isGameOver(board)) {
                 result.gameOver = true;
+                break;
             }
         }
     }
