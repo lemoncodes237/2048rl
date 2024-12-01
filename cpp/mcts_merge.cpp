@@ -6,6 +6,7 @@
 #include <iostream>
 #include <omp.h>
 #include <iomanip>
+#include <cmath>
 MCTSMerge::MCTSMerge(int n, int simulations) 
     : game(n), simulations(simulations), points(0) {
     // Enable nested parallelism
@@ -27,13 +28,13 @@ int MCTSMerge::moveToEnd(int move) {
     int score = result.reward;
 
     std::mt19937 gen(std::random_device{}());
+    std::uniform_real_distribution<> dis(0.0, 1.0);
     
     // Then do moves that maximize the merges until game over
     while (!result.gameOver) {
         // Test each possible move
-        std::vector<int> bestMoves(4);
-        int bestMerge = -1;
-        int nMoves = 0;
+        std::vector<double> merges(4);
+        double sum = 0;
         for (int move = 0; move < 4; move++) {
             // Test if move is valid using a temporary copy
             Game2048 testGame(gameCopy);
@@ -43,19 +44,26 @@ int MCTSMerge::moveToEnd(int move) {
                 continue;
             }
             
-            if(bestMerge < moveResult.merges)  {
-                bestMoves[0] = move;
-                nMoves = 1;
-                bestMerge = moveResult.merges;
-            } else if(bestMerge == moveResult.merges)  {
-                bestMoves[nMoves] = move;
-                nMoves++;
+            merges[move] = exp(moveResult.merges);
+            sum += merges[move];
+        }
+
+        for (int move = 0; move < 4; move++)  {
+            merges[move] /= sum;
+        }
+
+        double val = dis(gen);
+        int nextMove = 0;
+        double cp = 0.0;
+        for (int move = 0; move < 4; move++)  {
+            cp += merges[move];
+            if(val < cp)  {
+                nextMove = move;
+                break;
             }
         }
 
-        std::uniform_int_distribution<> dis(0, nMoves - 1);
-
-        result = gameCopy.move(bestMoves[dis(gen)]);
+        result = gameCopy.move(nextMove);
         score += result.reward;
     }
     
