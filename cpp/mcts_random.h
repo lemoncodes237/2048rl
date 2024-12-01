@@ -10,8 +10,7 @@ public:
     const Game2048& getGame() const { return game; }
 
 private:
-    int randomToEnd(Game2048& gameCopy);
-    
+    int randomToEnd(int move);
     Game2048 game;
     int simulations;
     int points;

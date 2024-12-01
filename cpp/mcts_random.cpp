@@ -5,7 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <omp.h>
-
+#include <iomanip>
 MCTSRandom::MCTSRandom(int n, int simulations) 
     : game(n), simulations(simulations), points(0) {
     // Enable nested parallelism
@@ -18,73 +18,56 @@ struct MoveResult {
     bool validMove = false;
 };
 
-int MCTSRandom::randomToEnd(Game2048& gameCopy) {
-    int score = 0;
-    std::mt19937 gen(std::random_device{}());  // Local RNG per thread
+int MCTSRandom::randomToEnd(int move) {
+    // Create a fresh copy for this simulation
+    Game2048 gameCopy(game);
+    
+    // First apply the move we're testing
+    auto result = gameCopy.move(move);
+    int score = result.reward;
+    
+    // Then do random moves until game over
+    std::mt19937 gen(std::random_device{}());
     std::uniform_int_distribution<> dis(0, 3);
     
-    auto result = gameCopy.move(dis(gen));
     while (!result.gameOver) {
-        score += result.reward;
         result = gameCopy.move(dis(gen));
+        score += result.reward;
     }
     
     return score;
 }
 
 bool MCTSRandom::makeMove() {
-    const int num_boards = game.getBoards().size();
-    std::vector<std::vector<MoveResult>> allResults(num_boards, std::vector<MoveResult>(4));
+    std::vector<float> rewards(4);
     
-    // Parallelize across both boards and moves
-    #pragma omp parallel for collapse(2)
-    for (int board = 0; board < num_boards; board++) {
-        for (int move = 0; move < 4; move++) {
-            Game2048 testGame(game);  // Copy full game state
-            auto result = testGame.moveWithoutSpawn(move);
-            
-            if (!result.changed) {
-                allResults[board][move].validMove = false;
-                continue;
-            }
-            
-            allResults[board][move].validMove = true;
-            Game2048 baseState(testGame);  // Save state after move
-            
-            // Run simulations for this board+move combination
-            for (int sim = 0; sim < simulations; sim++) {
-                Game2048 simState(baseState);
-                int score = randomToEnd(simState);
-                if (score > 0) {
-                    allResults[board][move].totalScore += score;
-                    allResults[board][move].validSims++;
-                }
-            }
-        }
-    }
-
-    // Find best move (aggregating across all boards)
-    float bestScore = -1;
-    int bestMove = -1;
-    
+    // Test each possible move
     for (int move = 0; move < 4; move++) {
-        float moveScore = 0;
-        int totalValid = 0;
+        // Test if move is valid using a temporary copy
+        Game2048 testGame(game);
+        auto moveResult = testGame.moveWithoutSpawn(move);
         
-        for (int board = 0; board < num_boards; board++) {
-            if (allResults[board][move].validMove && allResults[board][move].validSims > 0) {
-                moveScore += static_cast<float>(allResults[board][move].totalScore) / 
-                            allResults[board][move].validSims;
-                totalValid++;
-            }
+        if (!moveResult.changed) {
+            rewards[move] = -1;
+            continue;
         }
         
-        if (totalValid > 0) {
-            moveScore /= totalValid;  // Average across boards
-            if (moveScore > bestScore) {
-                bestScore = moveScore;
-                bestMove = move;
-            }
+        // Run B simulations for this move
+        int score_sum = 0;
+        #pragma omp parallel for reduction(+:score_sum)
+        for (int sim = 0; sim < simulations; sim++) {
+            score_sum += randomToEnd(move);
+        }
+        rewards[move] = score_sum;
+    }
+    
+    // Find best move
+    int bestMove = 0;
+    float bestScore = rewards[0];
+    for (int move = 1; move < 4; move++) {
+        if (rewards[move] > bestScore) {
+            bestScore = rewards[move];
+            bestMove = move;
         }
     }
     
@@ -97,7 +80,7 @@ bool MCTSRandom::makeMove() {
         std::cout << "Final board state:" << std::endl;
         for (const auto& board : game.getBoards()) {
             for (int i = 0; i < 16; i++) {
-                std::cout << board[i] << " ";
+                std::cout << std::setw(5) << board[i] << " ";
                 if ((i + 1) % 4 == 0) std::cout << std::endl;
             }
             std::cout << std::endl;
