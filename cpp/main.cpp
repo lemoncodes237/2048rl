@@ -17,6 +17,10 @@ typedef MCTSMerge MCTSImpl;
 #include "mcts_random.h"
 typedef MCTSRandom MCTSImpl;
 #endif
+#ifdef USE_SCORE
+#include "mcts_score.h"
+typedef MCTSScore MCTSImpl;
+#endif
 
 using namespace std::chrono;
 
@@ -72,6 +76,9 @@ int main(int argc, char* argv[]) {
     #endif
     #ifdef USE_RANDOM
     std::cout << "Using Standard MCTS\n";
+    #endif
+    #ifdef USE_SCORE
+    std::cout << "Using Score MCTS\n";
     #endif
     
     #ifdef _OPENMP

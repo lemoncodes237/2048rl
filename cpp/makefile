@@ -12,6 +12,10 @@ ifeq ($(MCTS_TYPE),merge)
     MCTS_SRC = mcts_merge.cpp
     CXXFLAGS += -DUSE_MERGE
 endif
+ifeq ($(MCTS_TYPE),score)
+    MCTS_SRC = mcts_score.cpp
+    CXXFLAGS += -DUSE_SCORE
+endif
 ifeq ($(MCTS_TYPE), random)
 	MCTS_SRC = mcts_random.cpp
 	CXXFLAGS += -DUSE_RANDOM
