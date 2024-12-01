@@ -1,10 +1,16 @@
-#include "mcts_random.h"
-#include "mcts_random_random.h"
 #include <iostream>
 #include <chrono>
 #include <iomanip>
 #ifdef _OPENMP
 #include <omp.h>
+#endif
+
+#ifdef USE_RANDOM_RANDOM
+#include "mcts_random_random.h"
+typedef MCTSRandomRandom MCTSImpl;
+#else
+#include "mcts_random.h"
+typedef MCTSRandom MCTSImpl;
 #endif
 
 using namespace std::chrono;
@@ -17,7 +23,7 @@ struct GameStats {
 };
 
 GameStats run_game(int num_boards, int num_simulations) {
-    MCTSRandomRandom mcts(num_boards, num_simulations);
+    MCTSImpl mcts(num_boards, num_simulations);
     GameStats stats = {0, 0, 0.0, 0.0};
     auto start_time = high_resolution_clock::now();
     
@@ -52,6 +58,12 @@ int main(int argc, char* argv[]) {
     
     std::cout << "Running with " << num_boards << " boards and " 
               << num_simulations << " simulations per move\n";
+    
+    #ifdef USE_RANDOM_RANDOM
+    std::cout << "Using Random-Random MCTS\n";
+    #else
+    std::cout << "Using Standard MCTS\n";
+    #endif
     
     #ifdef _OPENMP
     std::cout << "OpenMP threads: " << omp_get_max_threads() << "\n";
