@@ -12,6 +12,7 @@ public:
         bool gameOver;
         bool changed;
         int reward;
+        int merges;
     };
 
     MoveResult move(int direction);  // 0=Up, 1=Down, 2=Right, 3=Left

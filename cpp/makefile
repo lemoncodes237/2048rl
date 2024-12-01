@@ -4,11 +4,17 @@ CXXFLAGS = -Wall -Wextra -std=c++17 -O3 -fopenmp
 # Default to standard MCTS if not specified
 MCTS_TYPE ?= standard
 
-ifeq ($(MCTS_TYPE),random)
+ifeq ($(MCTS_TYPE),randomrandom)
     MCTS_SRC = mcts_random_random.cpp
     CXXFLAGS += -DUSE_RANDOM_RANDOM
-else
-    MCTS_SRC = mcts_random.cpp
+endif
+ifeq ($(MCTS_TYPE),merge)
+    MCTS_SRC = mcts_merge.cpp
+    CXXFLAGS += -DUSE_MERGE
+endif
+ifeq ($(MCTS_TYPE), random)
+	MCTS_SRC = mcts_random.cpp
+	CXXFLAGS += -DUSE_RANDOM
 endif
 
 TARGET = game2048

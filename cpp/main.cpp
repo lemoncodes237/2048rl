@@ -8,7 +8,12 @@
 #ifdef USE_RANDOM_RANDOM
 #include "mcts_random_random.h"
 typedef MCTSRandomRandom MCTSImpl;
-#else
+#endif
+#ifdef USE_MERGE
+#include "mcts_merge.h"
+typedef MCTSMerge MCTSImpl;
+#endif
+#ifdef USE_RANDOM
 #include "mcts_random.h"
 typedef MCTSRandom MCTSImpl;
 #endif
@@ -61,7 +66,11 @@ int main(int argc, char* argv[]) {
     
     #ifdef USE_RANDOM_RANDOM
     std::cout << "Using Random-Random MCTS\n";
-    #else
+    #endif
+    #ifdef USE_MERGE
+    std::cout << "Using Merge MCTS\n";
+    #endif
+    #ifdef USE_RANDOM
     std::cout << "Using Standard MCTS\n";
     #endif
     

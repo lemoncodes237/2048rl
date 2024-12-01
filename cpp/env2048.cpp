@@ -34,7 +34,8 @@ void Game2048::genRandom(std::vector<int>& board) {
 }
 
 std::vector<int> Game2048::moveLine(const std::vector<int>& line, bool& moved, int& score) const {
-    std::vector<int> result(4, 0);
+    // The final element is the number of merges
+    std::vector<int> result(5, 0);
     moved = false;
     score = 0;
     
@@ -49,6 +50,8 @@ std::vector<int> Game2048::moveLine(const std::vector<int>& line, bool& moved, i
         else if (result[writePos] == line[i]) {
             result[writePos] *= 2;
             score += result[writePos];
+            // Increment number of merges
+            result[4]++;
             writePos--;
             moved = true;
         }
@@ -67,6 +70,7 @@ Game2048::MoveResult Game2048::moveWithoutSpawn(int direction) {
     result.gameOver = false;
     result.changed = false;
     result.reward = 0;
+    result.merges = 0;
 
     for (int b = 0; b < numBoards; b++) {
         bool boardChanged = false;
@@ -96,6 +100,7 @@ Game2048::MoveResult Game2048::moveWithoutSpawn(int direction) {
             auto newLine = moveLine(line, lineMoved, lineScore);
             boardChanged |= lineMoved;
             result.reward += lineScore;
+            result.merges += newLine[4];
             
             // Write back
             switch (direction) {
