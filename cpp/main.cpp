@@ -1,4 +1,5 @@
 #include "mcts_random.h"
+#include "mcts_random_random.h"
 #include <iostream>
 #include <chrono>
 #include <iomanip>
@@ -16,7 +17,7 @@ struct GameStats {
 };
 
 GameStats run_game(int num_boards, int num_simulations) {
-    MCTSRandom mcts(num_boards, num_simulations);
+    MCTSRandomRandom mcts(num_boards, num_simulations);
     GameStats stats = {0, 0, 0.0, 0.0};
     auto start_time = high_resolution_clock::now();
     
