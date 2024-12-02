@@ -8,7 +8,7 @@
 #include <iomanip>
 #include <cassert>
 MCTSpUCT::MCTSpUCT(int n, int simulations) 
-    : game(n), currGame(nullptr), simulations(simulations), points(0), acquired(0) {
+    : game(n), simulations(simulations), points(0), acquired(0) {
     // Enable nested parallelism
     omp_set_nested(1);
 }
@@ -31,7 +31,7 @@ pUCTNode::pUCTNode(unsigned long state, bool chance, int a)
 void pUCTNode::incrementVisits()  { visits++; }
 void pUCTNode::increaseValue(double v) { value += v; }
 
-int MCTSpUCT::randomToEnd() {
+/*int MCTSpUCT::moveToEnd(Game2048* currGame) {
     // Create a fresh copy for this simulation
     Game2048 gameCopy(*currGame);
     
@@ -81,11 +81,19 @@ int MCTSpUCT::randomToEnd() {
         result = gameCopy.move(nextMove);
         score += result.reward;
     }
+
+    // Comment out for total score
+    //score = 0;
+    //for(auto board : gameCopy.getBoards())  {
+    //    for(int i = 0; i < 16; i++)  {
+    //        score += board[i];
+    //    }
+    //}
     
     return score;
-}
+}*/
 
-/*int MCTSpUCT::randomToEnd() {
+int MCTSpUCT::moveToEnd(Game2048* currGame) {
     // Create a fresh copy for this simulation
     Game2048 gameCopy(*currGame);
     
@@ -116,9 +124,9 @@ int MCTSpUCT::randomToEnd() {
     //}
     
     return score;
-}*/
+}
 
-unsigned long MCTSpUCT::getBoardNum()  {
+unsigned long MCTSpUCT::getBoardNum(Game2048* currGame)  {
     unsigned long val = 0;
     // Note: SHOULD ONLY USE ONE BOARD
     for(auto board : currGame->getBoards())  {
@@ -179,14 +187,14 @@ int MCTSpUCT::selectAction(pUCTNode* node)  {
     }
 }
 
-double MCTSpUCT::sample(pUCTNode* node)  {
+double MCTSpUCT::sample(pUCTNode* node, Game2048* currGame)  {
     // Create a fresh copy for this simulation
     double before = node->value;
 
     if(node->chance)  {
         int acq = acquired;
         auto children = node->children;
-        unsigned long state = getBoardNum();
+        unsigned long state = getBoardNum(currGame);
         pUCTNode* curr = nullptr;
 
         for(auto child : children)  {
@@ -202,9 +210,9 @@ double MCTSpUCT::sample(pUCTNode* node)  {
             node->children.push_back(curr);
         }
 
-        node->value += sample(curr) + acq;
+        node->value += sample(curr, currGame) + acq;
     } else if(node->visits == 0.0)  {
-        node->value = randomToEnd();
+        node->value = moveToEnd(currGame);
     } else  {
         int a = selectAction(node);
         
@@ -225,14 +233,18 @@ double MCTSpUCT::sample(pUCTNode* node)  {
 
         acquired = result.reward;
 
-        if(!result.changed)  {
-            curr->visits = 100000;
-        }
+        // Comment out for total score, not for board sum.
+        // acquired = 0;
 
         if(result.gameOver)  {
             curr->visits++;
         } else  {
-            node->value += sample(curr);
+            node->value += sample(curr, currGame);
+        }
+
+        // Make sure we never make that move again since it did nothing.
+        if(!result.changed)  {
+            curr->visits = 100000000;
         }
     }
 
@@ -243,6 +255,19 @@ double MCTSpUCT::sample(pUCTNode* node)  {
     return node->value - before;
 }
 
+// Clear the Tree
+void MCTSpUCT::clearTree(pUCTNode* node, bool skipDelete)  {
+    if(!node->children.empty())  {
+        for(auto child : node->children)  {
+            clearTree(child, false);
+        }
+    }
+
+    if(!skipDelete)  {
+        delete node;
+    }
+}
+
 bool MCTSpUCT::makeMove() {
     std::vector<float> rewards(4);
     
@@ -250,15 +275,13 @@ bool MCTSpUCT::makeMove() {
     //for (int move = 0; move < 4; move++) {
         // Test if move is valid using a temporary copy
 
-        currGame = &game;
-        pUCTNode node(getBoardNum(), false, -1);
+        pUCTNode node(getBoardNum(&game), false, -1);
 
         for(int sim = 0; sim < simulations; sim++)  {
             Game2048 copyGame(game);
-            currGame = &copyGame;
 
             //std::cout << "Calling sample\n";
-            sample(&node);
+            sample(&node, &copyGame);
         }
 
         //#pragma omp parallel for reduction(+:score_sum)
@@ -287,21 +310,24 @@ bool MCTSpUCT::makeMove() {
             }
         }
     }
+
+    // Free the memory
+    clearTree(&node, true);
     
     // Find best move
     int bestMove = 0;
     float bestScore = rewards[0];
-    std::cout << "Board state\n";
+    /*std::cout << "Board state\n";
     for (const auto& board : game.getBoards()) {
         for (int i = 0; i < 16; i++) {
             std::cout << std::setw(5) << board[i] << " ";
             if ((i + 1) % 4 == 0) std::cout << std::endl;
         }
         std::cout << std::endl;
-    }
-    std::cout << "Rewards:\n" << bestScore << " " << valuevalue[0] << " " << visitsvisits[0] << std::endl;
+    }*/
+    //std::cout << "Rewards:\n" << bestScore << " " << valuevalue[0] << " " << visitsvisits[0] << std::endl;
     for (int move = 1; move < 4; move++) {
-        std::cout << rewards[move] << " " << valuevalue[move] << " " << visitsvisits[move] << std::endl;
+        //std::cout << rewards[move] << " " << valuevalue[move] << " " << visitsvisits[move] << std::endl;
         if (rewards[move] > bestScore) {
             bestScore = rewards[move];
             bestMove = move;

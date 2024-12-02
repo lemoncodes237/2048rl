@@ -22,18 +22,17 @@ public:
     double C = 800;
 
     MCTSpUCT(int n, int simulations);
-    unsigned long getBoardNum();
+    unsigned long getBoardNum(Game2048* currGame);
     int selectAction(pUCTNode* node);
-    double sample(pUCTNode* node);
+    double sample(pUCTNode* node, Game2048* currGame);
+    void clearTree(pUCTNode* node, bool skipDelete);
     bool makeMove();  // Returns true if game is over
     int getPoints() const { return points; }
     const Game2048& getGame() const { return game; }
 
 private:
-    int randomToEnd();
+    int moveToEnd(Game2048* currGame);
     Game2048 game;
-    // Simulated game
-    Game2048* currGame;
     int simulations;
     int points;
     int acquired;
