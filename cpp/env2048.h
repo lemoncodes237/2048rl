@@ -7,6 +7,8 @@ class Game2048 {
 public:
     Game2048(int numBoards);
     Game2048(const Game2048& other);  // Copy constructor for MCTS
+
+    int numBoards;
     
     struct MoveResult {
         bool gameOver;
@@ -20,11 +22,11 @@ public:
     bool isGameOver(const std::vector<int>& board) const;
     const std::vector<std::vector<int>>& getBoards() const { return boards; }
 
+    std::vector<std::vector<int>> boards;
+
 private:
     void genRandom(std::vector<int>& board);
     std::vector<int> moveLine(const std::vector<int>& line, bool& moved, int& score) const;
-    
-    int numBoards;
-    std::vector<std::vector<int>> boards;
+
     std::mt19937 rng;
 };

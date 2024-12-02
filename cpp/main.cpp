@@ -21,6 +21,10 @@ typedef MCTSRandom MCTSImpl;
 #include "mcts_score.h"
 typedef MCTSScore MCTSImpl;
 #endif
+#ifdef USE_EXPLORE_SCORE
+#include "mcts_pUCT.h"
+typedef MCTSpUCT MCTSImpl;
+#endif
 
 using namespace std::chrono;
 
@@ -80,6 +84,9 @@ int main(int argc, char* argv[]) {
     #ifdef USE_SCORE
     std::cout << "Using Score MCTS\n";
     #endif
+    #ifdef USE_EXPLORE_SCORE
+    std::cout << "Using Explore Score MCTS\n";
+    #endif
     
     #ifdef _OPENMP
     std::cout << "OpenMP threads: " << omp_get_max_threads() << "\n";
@@ -87,6 +94,5 @@ int main(int argc, char* argv[]) {
     
     auto stats = run_game(num_boards, num_simulations);
     print_stats(stats);
-    
     return 0;
 }

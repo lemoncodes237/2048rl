@@ -3,3 +3,39 @@ Game over, total points 36264.0
        [2.000e+00, 5.120e+02, 1.280e+02, 8.000e+00],
        [1.024e+03, 6.400e+01, 3.200e+01, 2.048e+03],
        [2.000e+00, 8.000e+00, 2.560e+02, 8.000e+00]])]
+
+
+Assess value
+vi: assess value of the children node
+vp: assess value of the parent node
+np: visiting times of the parent node
+ni: visiting times of the children nod
+e
+MCTS
+Three core elements 4.3
+
+UCB value function
+
+Search structure
+Search structure
+unfinished
+node
+Adavantage:
+Compared with Greedy, MCTS can get more
+information about the future benefit and do a
+wiser choice.
+Disadavange:
+Tree search causes larger time complexicty.
+UCB = vi/vp + c*√(2ln(np))/ni
+C is a constant to determine the trend.
+We find when c=0.3, the AI get highest score.
+UCB value function
+Played by MCTS agent
+Our modification:
+We use (vp/vi) to replace original v only for we
+couldn't easily use +1,0, 1 to assess the game state
+and the range of vi(or vp) can be out of control.
+Assess value
+Result
+Method: Average scores
+History highest score: 15908

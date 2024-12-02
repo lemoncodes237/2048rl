@@ -20,6 +20,10 @@ ifeq ($(MCTS_TYPE), random)
 	MCTS_SRC = mcts_random.cpp
 	CXXFLAGS += -DUSE_RANDOM
 endif
+ifeq ($(MCTS_TYPE), explorescore)
+	MCTS_SRC = mcts_pUCT.cpp
+	CXXFLAGS += -DUSE_EXPLORE_SCORE
+endif
 
 TARGET = game2048
 SRCS = main.cpp env2048.cpp $(MCTS_SRC)

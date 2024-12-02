@@ -38,7 +38,6 @@ std::vector<int> Game2048::moveLine(const std::vector<int>& line, bool& moved, i
     std::vector<int> result(5, 0);
     moved = false;
     score = 0;
-    
     int writePos = 3;
     for (int i = 3; i >= 0; i--) {
         if (line[i] == 0) continue;
