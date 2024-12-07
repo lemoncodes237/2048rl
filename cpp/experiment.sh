@@ -4,7 +4,7 @@
 N=100
 
 # Output file
-OUTPUT_FILE="experiment_results_merge.csv"
+OUTPUT_FILE="experiment_results.csv"
 
 # Create CSV header
 echo "experiment,max_tile,score" > $OUTPUT_FILE
