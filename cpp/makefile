@@ -12,9 +12,17 @@ ifeq ($(MCTS_TYPE),merge)
     MCTS_SRC = mcts_merge.cpp
     CXXFLAGS += -DUSE_MERGE
 endif
+ifeq ($(MCTS_TYPE),score)
+    MCTS_SRC = mcts_score.cpp
+    CXXFLAGS += -DUSE_SCORE
+endif
 ifeq ($(MCTS_TYPE), random)
 	MCTS_SRC = mcts_random.cpp
 	CXXFLAGS += -DUSE_RANDOM
+endif
+ifeq ($(MCTS_TYPE), explorescore)
+	MCTS_SRC = mcts_pUCT.cpp
+	CXXFLAGS += -DUSE_EXPLORE_SCORE
 endif
 
 TARGET = game2048

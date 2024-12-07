@@ -4,7 +4,7 @@ import seaborn as sns
 import numpy as np
 
 # Read the CSV file
-df = pd.read_csv('experiment_results.csv')
+df = pd.read_csv('experiment_results_puct_random_C_800.csv')
 
 # Create a figure with two subplots side by side
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
@@ -41,7 +41,7 @@ ax2.set_ylabel('Frequency')
 ax2.legend()
 
 plt.tight_layout()
-plt.savefig('experiment_results.png')
+plt.savefig('experiment_results_puct_random_C_800.png')
 plt.close()
 
 # Print statistics

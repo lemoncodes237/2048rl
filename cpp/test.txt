@@ -1,0 +1,17 @@
+Running with 1 boards and 400 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 36304
+Final board state:
+   16     2   256     8 
+ 2048    64   128   512 
+    8  1024    32    16 
+    2     4    16     4 
+
+
+=== Performance Statistics ===
+Total moves: 1897
+Final score: 36304
+Total time: 27.181 seconds
+Average time per move: 14.329 ms
+Moves per second: 69.790
