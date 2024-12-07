@@ -1,27 +1,27 @@
 CXX = g++
 CXXFLAGS = -Wall -Wextra -std=c++17 -O3 -fopenmp
-
+CXXFLAGS += -I.
 # Default to standard MCTS if not specified
 MCTS_TYPE ?= standard
 
 ifeq ($(MCTS_TYPE),randomrandom)
-    MCTS_SRC = mcts_random_random.cpp
+    MCTS_SRC = random_random/mcts_random_random.cpp
     CXXFLAGS += -DUSE_RANDOM_RANDOM
 endif
 ifeq ($(MCTS_TYPE),merge)
-    MCTS_SRC = mcts_merge.cpp
+    MCTS_SRC = merge/mcts_merge.cpp
     CXXFLAGS += -DUSE_MERGE
 endif
 ifeq ($(MCTS_TYPE),score)
-    MCTS_SRC = mcts_score.cpp
+    MCTS_SRC = score/mcts_score.cpp
     CXXFLAGS += -DUSE_SCORE
 endif
 ifeq ($(MCTS_TYPE), random)
-	MCTS_SRC = mcts_random.cpp
+	MCTS_SRC = random/mcts_random.cpp
 	CXXFLAGS += -DUSE_RANDOM
 endif
 ifeq ($(MCTS_TYPE), explorescore)
-	MCTS_SRC = mcts_pUCT.cpp
+	MCTS_SRC = pUCT/mcts_pUCT.cpp
 	CXXFLAGS += -DUSE_EXPLORE_SCORE
 endif
 
