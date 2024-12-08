@@ -31,6 +31,57 @@ pUCTNode::pUCTNode(unsigned long state, bool chance, int a)
 void pUCTNode::incrementVisits()  { visits++; }
 void pUCTNode::increaseValue(double v) { value += v; }
 
+int MCTSpUCT::moveToEnd(Game2048* currGame) {
+    // Create a fresh copy for this simulation
+    Game2048 gameCopy(*currGame);
+    
+    int score = 0;
+    Game2048::MoveResult result;
+    result.gameOver = false;
+
+    std::mt19937 gen(std::random_device{}());
+    std::uniform_real_distribution<> dis(0.0, 1.0);
+    
+    // Then do moves that maximize the merges until game over
+    while (!result.gameOver) {
+        // Test each possible move
+        std::vector<double> merges(4);
+        double sum = 0;
+        for (int move = 0; move < 4; move++) {
+            // Test if move is valid using a temporary copy
+            Game2048 testGame(gameCopy);
+            auto moveResult = testGame.moveWithoutSpawn(move);
+            
+            if (!moveResult.changed) {
+                continue;
+            }
+            
+            merges[move] = exp(moveResult.merges);
+            sum += merges[move];
+        }
+
+        for (int move = 0; move < 4; move++)  {
+            merges[move] /= sum;
+        }
+
+        double val = dis(gen);
+        int nextMove = 0;
+        double cp = 0.0;
+        for (int move = 0; move < 4; move++)  {
+            cp += merges[move];
+            if(val < cp)  {
+                nextMove = move;
+                break;
+            }
+        }
+
+        result = gameCopy.move(nextMove);
+        score += result.reward;
+    }
+    
+    return score;
+}
+
 /*int MCTSpUCT::moveToEnd(Game2048* currGame) {
     // Create a fresh copy for this simulation
     Game2048 gameCopy(*currGame);
@@ -93,7 +144,7 @@ void pUCTNode::increaseValue(double v) { value += v; }
     return score;
 }*/
 
-int MCTSpUCT::moveToEnd(Game2048* currGame) {
+/*int MCTSpUCT::moveToEnd(Game2048* currGame) {
     // Create a fresh copy for this simulation
     Game2048 gameCopy(*currGame);
     
@@ -124,7 +175,7 @@ int MCTSpUCT::moveToEnd(Game2048* currGame) {
     //}
     
     return score;
-}
+}*/
 
 unsigned long MCTSpUCT::getBoardNum(Game2048* currGame)  {
     unsigned long val = 0;
