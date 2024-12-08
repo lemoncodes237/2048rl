@@ -64,7 +64,7 @@ void print_stats(const GameStats& stats) {
 
 int main(int argc, char* argv[]) {
     int num_boards = 1;
-    int num_simulations = 100;
+    int num_simulations = 250;
     
     if (argc > 1) num_boards = std::atoi(argv[1]);
     if (argc > 2) num_simulations = std::atoi(argv[2]);

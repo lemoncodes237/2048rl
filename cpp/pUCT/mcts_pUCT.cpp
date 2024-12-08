@@ -8,7 +8,7 @@
 #include <iomanip>
 #include <cassert>
 MCTSpUCT::MCTSpUCT(int n, int simulations) 
-    : game(n), simulations(simulations), points(0), acquired(0) {
+    : game(n), simulations(4 * simulations), points(0), acquired(0) {
     // Enable nested parallelism
     omp_set_nested(1);
 }
@@ -100,10 +100,6 @@ int MCTSpUCT::moveToEnd(Game2048* currGame) {
         result = gameCopy.move(dis(gen));
         score += result.reward;
         ++moves;
-
-        if(moves > 10000)  {
-            std::cout << score << "\n";
-        }
     }
 
     //for(auto board : gameCopy.getBoards())  {

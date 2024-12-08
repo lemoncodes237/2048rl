@@ -19,7 +19,7 @@ public:
 
 class MCTSpUCT {
 public:
-    double C = 800;
+    double C = 1000;
 
     MCTSpUCT(int n, int simulations);
     unsigned long getBoardNum(Game2048* currGame);
