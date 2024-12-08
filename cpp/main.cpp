@@ -6,23 +6,23 @@
 #endif
 
 #ifdef USE_RANDOM_RANDOM
-#include "mcts_random_random.h"
+#include "random_random/mcts_random_random.h"
 typedef MCTSRandomRandom MCTSImpl;
 #endif
 #ifdef USE_MERGE
-#include "mcts_merge.h"
+#include "merge/mcts_merge.h"
 typedef MCTSMerge MCTSImpl;
 #endif
 #ifdef USE_RANDOM
-#include "mcts_random.h"
+#include "random/mcts_random.h"
 typedef MCTSRandom MCTSImpl;
 #endif
 #ifdef USE_SCORE
-#include "mcts_score.h"
+#include "score/mcts_score.h"
 typedef MCTSScore MCTSImpl;
 #endif
 #ifdef USE_EXPLORE_SCORE
-#include "mcts_pUCT.h"
+#include "pUCT/mcts_pUCT.h"
 typedef MCTSpUCT MCTSImpl;
 #endif
 
