@@ -86,68 +86,6 @@ int MCTSpUCT::moveToEnd(Game2048* currGame) {
     // Create a fresh copy for this simulation
     Game2048 gameCopy(*currGame);
     
-    // First apply the move we're testing
-    int score = 0;
-    Game2048::MoveResult result;
-    result.gameOver = false;
-
-    std::mt19937 gen(std::random_device{}());
-    std::uniform_real_distribution<> dis(0.0, 1.0);
-    
-    // Then do moves that maximize the merges until game over
-    while (!result.gameOver) {
-        // Test each possible move
-        std::vector<double> scores(4);
-        double sum = 0;
-        for (int move = 0; move < 4; move++) {
-            // Test if move is valid using a temporary copy
-            Game2048 testGame(gameCopy);
-            auto moveResult = testGame.moveWithoutSpawn(move);
-            
-            if (!moveResult.changed) {
-                continue;
-            }
-            
-            // The addition by 1 ensures that only moves that change the board are selected
-            scores[move] = moveResult.reward + 1;
-            sum += scores[move];
-        }
-
-        for (int move = 0; move < 4; move++)  {
-            scores[move] /= sum;
-        }
-
-        double val = dis(gen);
-        int nextMove = 0;
-        double cp = 0.0;
-        // Choose move proportional to score
-        for (int move = 0; move < 4; move++)  {
-            cp += scores[move];
-            if(val < cp)  {
-                nextMove = move;
-                break;
-            }
-        }
-
-        result = gameCopy.move(nextMove);
-        score += result.reward;
-    }
-
-    // Comment out for total score
-    //score = 0;
-    //for(auto board : gameCopy.getBoards())  {
-    //    for(int i = 0; i < 16; i++)  {
-    //        score += board[i];
-    //    }
-    //}
-    
-    return score;
-}*/
-
-/*int MCTSpUCT::moveToEnd(Game2048* currGame) {
-    // Create a fresh copy for this simulation
-    Game2048 gameCopy(*currGame);
-    
     // Then do random moves until game over
     std::mt19937 gen(std::random_device{}());
     std::uniform_int_distribution<> dis(0, 3);
