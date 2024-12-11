@@ -20,9 +20,17 @@ ifeq ($(MCTS_TYPE), random)
 	MCTS_SRC = random/mcts_random.cpp
 	CXXFLAGS += -DUSE_RANDOM
 endif
-ifeq ($(MCTS_TYPE), explorescore)
+ifeq ($(MCTS_TYPE), puct)
 	MCTS_SRC = pUCT/mcts_pUCT.cpp
-	CXXFLAGS += -DUSE_EXPLORE_SCORE
+	CXXFLAGS += -DUSE_PUCT_SINGLE
+endif
+ifeq ($(MCTS_TYPE), puctmult)
+	MCTS_SRC = pUCT_multiple/mcts_pUCT.cpp
+	CXXFLAGS += -DUSE_PUCT_MULTIPLE
+endif
+ifeq ($(MCTS_TYPE), puctminmult)
+	MCTS_SRC = pUCT_min_multiple/mcts_pUCT.cpp
+	CXXFLAGS += -DUSE_PUCT_MIN_MULTIPLE
 endif
 
 TARGET = game2048

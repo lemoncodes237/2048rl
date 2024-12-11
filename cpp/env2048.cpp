@@ -18,6 +18,11 @@ Game2048::Game2048(const Game2048& other) :
     boards(other.boards),
     rng(std::time(nullptr)) {}
 
+Game2048::Game2048(std::vector<int>& board):
+    numBoards(1),
+    boards(1, board),
+    rng(std::time(nullptr)) {}
+
 void Game2048::genRandom(std::vector<int>& board) {
     std::vector<int> emptySpots;
     for (int i = 0; i < 16; i++) {

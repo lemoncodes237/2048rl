@@ -78,17 +78,17 @@ bool MCTSRandom::makeMove() {
         }
     }
 
-    std::cout << "Board state\n";
+    /*std::cout << "Board state\n";
     for (const auto& board : game.getBoards()) {
         for (int i = 0; i < 16; i++) {
             std::cout << std::setw(5) << board[i] << " ";
             if ((i + 1) % 4 == 0) std::cout << std::endl;
         }
         std::cout << std::endl;
-    }
-    std::cout << "Rewards:\n" << rewards[0] << std::endl;
+    }*/
+    //std::cout << "Rewards:\n" << rewards[0] << std::endl;
     for (int move = 1; move < 4; move++) {
-        std::cout << rewards[move] << std::endl;
+        //std::cout << rewards[move] << std::endl;
         if (rewards[move] > bestScore) {
             bestScore = rewards[move];
             bestMove = move;

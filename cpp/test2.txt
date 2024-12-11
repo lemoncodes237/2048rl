@@ -1,0 +1,850 @@
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 16168
+Final board state:
+   16     2    32     8 
+   32  1024   512     4 
+    8    64   256     2 
+    2   128     2     4 
+
+
+=== Performance Statistics ===
+Total moves: 953
+Final score: 16168
+Total time: 11.957 seconds
+Average time per move: 12.547 ms
+Moves per second: 79.703
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 30412
+Final board state:
+    4     2  2048     2 
+ 1024    64    32   128 
+    4    16     4     2 
+    2     4     2     8 
+
+
+=== Performance Statistics ===
+Total moves: 1525
+Final score: 30412
+Total time: 18.599 seconds
+Average time per move: 12.196 ms
+Moves per second: 81.992
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 34496
+Final board state:
+    8     2    32     2 
+ 2048   512  1024     8 
+   32   128    64     4 
+    2     8     4     2 
+
+
+=== Performance Statistics ===
+Total moves: 1763
+Final score: 34496
+Total time: 19.846 seconds
+Average time per move: 11.257 ms
+Moves per second: 88.833
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 7144
+Final board state:
+    2     8    16     4 
+  512   256    64    32 
+    4    32   128     4 
+    2     4     8     2 
+
+
+=== Performance Statistics ===
+Total moves: 490
+Final score: 7144
+Total time: 6.831 seconds
+Average time per move: 13.941 ms
+Moves per second: 71.729
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 58812
+Final board state:
+    4    64     4     2 
+   16    32   128     8 
+    4   512    32  1024 
+    2  4096    16     8 
+
+
+=== Performance Statistics ===
+Total moves: 2713
+Final score: 58812
+Total time: 31.933 seconds
+Average time per move: 11.770 ms
+Moves per second: 84.960
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 27276
+Final board state:
+    4     2     4    32 
+  256    64   128     2 
+   32   512  2048     8 
+    2     8    32     2 
+
+
+=== Performance Statistics ===
+Total moves: 1414
+Final score: 27276
+Total time: 17.498 seconds
+Average time per move: 12.375 ms
+Moves per second: 80.810
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 32188
+Final board state:
+    2     4    16     4 
+    8   128   256     8 
+    4    64  1024    32 
+    8  2048    16     4 
+
+
+=== Performance Statistics ===
+Total moves: 1641
+Final score: 32188
+Total time: 20.007 seconds
+Average time per move: 12.192 ms
+Moves per second: 82.019
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 12192
+Final board state:
+    2     4    16   256 
+    4    64   128    32 
+   16     4  1024     2 
+    8     2    32     8 
+
+
+=== Performance Statistics ===
+Total moves: 723
+Final score: 12192
+Total time: 9.434 seconds
+Average time per move: 13.048 ms
+Moves per second: 76.638
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 35416
+Final board state:
+    2     4    64     4 
+  256    32    16     8 
+  512  1024  2048     4 
+    4    16     8     2 
+
+
+=== Performance Statistics ===
+Total moves: 1809
+Final score: 35416
+Total time: 22.182 seconds
+Average time per move: 12.262 ms
+Moves per second: 81.554
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 32148
+Final board state:
+    2     4     8     2 
+    4   128     2  1024 
+    8    64   256    16 
+    2    32  2048     2 
+
+
+=== Performance Statistics ===
+Total moves: 1637
+Final score: 32148
+Total time: 19.882 seconds
+Average time per move: 12.146 ms
+Moves per second: 82.334
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 34540
+Final board state:
+    2    32   512     4 
+    4   128    32    16 
+   16  2048    64     4 
+    4  1024     8     2 
+
+
+=== Performance Statistics ===
+Total moves: 1766
+Final score: 34540
+Total time: 21.003 seconds
+Average time per move: 11.893 ms
+Moves per second: 84.082
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 54612
+Final board state:
+    4    32     2     4 
+   16   128  4096     8 
+ 1024    64    32     2 
+    4    16     2     4 
+
+
+=== Performance Statistics ===
+Total moves: 2433
+Final score: 54612
+Total time: 27.620 seconds
+Average time per move: 11.352 ms
+Moves per second: 88.090
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 36240
+Final board state:
+   16     8     2     4 
+ 2048  1024    64    32 
+    8   128   512   256 
+    2    16     8     2 
+
+
+=== Performance Statistics ===
+Total moves: 1885
+Final score: 36240
+Total time: 21.356 seconds
+Average time per move: 11.329 ms
+Moves per second: 88.266
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 35048
+Final board state:
+ 2048     4     2     4 
+    4    64  1024   128 
+  128     4   512     4 
+    8     2    16     2 
+
+
+=== Performance Statistics ===
+Total moves: 1803
+Final score: 35048
+Total time: 20.664 seconds
+Average time per move: 11.461 ms
+Moves per second: 87.254
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 32396
+Final board state:
+    2   128    64     2 
+    8    64   256  2048 
+    4    32  1024    16 
+    2     4     2     4 
+
+
+=== Performance Statistics ===
+Total moves: 1651
+Final score: 32396
+Total time: 19.431 seconds
+Average time per move: 11.769 ms
+Moves per second: 84.966
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 16028
+Final board state:
+  512     2     4     2 
+    2  1024    32     8 
+    4   128    64    16 
+   16   256     8     2 
+
+
+=== Performance Statistics ===
+Total moves: 930
+Final score: 16028
+Total time: 11.682 seconds
+Average time per move: 12.561 ms
+Moves per second: 79.609
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 34316
+Final board state:
+    2     4    16     4 
+    8    32    64   128 
+    2     8   512     2 
+    4  2048  1024     4 
+
+
+=== Performance Statistics ===
+Total moves: 1731
+Final score: 34316
+Total time: 20.369 seconds
+Average time per move: 11.767 ms
+Moves per second: 84.984
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 36316
+Final board state:
+    4  1024   128     4 
+    8    64   256    16 
+   16    32  2048    32 
+    2     8   512     8 
+
+
+=== Performance Statistics ===
+Total moves: 1887
+Final score: 36316
+Total time: 21.465 seconds
+Average time per move: 11.375 ms
+Moves per second: 87.909
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 35300
+Final board state:
+    8     4    64     4 
+    2  2048  1024    32 
+    4    16   512     8 
+    2     4   256     2 
+
+
+=== Performance Statistics ===
+Total moves: 1785
+Final score: 35300
+Total time: 21.103 seconds
+Average time per move: 11.822 ms
+Moves per second: 84.587
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 35864
+Final board state:
+  256     4    32     8 
+    4   512  2048    64 
+    2  1024    16     4 
+    4    32    64     2 
+
+
+=== Performance Statistics ===
+Total moves: 1861
+Final score: 35864
+Total time: 21.882 seconds
+Average time per move: 11.758 ms
+Moves per second: 85.047
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 14404
+Final board state:
+    2    64   512     2 
+    4    16  1024     4 
+  128     8    64     8 
+    2     4     2     4 
+
+
+=== Performance Statistics ===
+Total moves: 818
+Final score: 14404
+Total time: 10.901 seconds
+Average time per move: 13.326 ms
+Moves per second: 75.042
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 14176
+Final board state:
+    2     8     4     2 
+  128   512    16     4 
+    8    64     8     2 
+ 1024     8     2     4 
+
+
+=== Performance Statistics ===
+Total moves: 808
+Final score: 14176
+Total time: 10.587 seconds
+Average time per move: 13.103 ms
+Moves per second: 76.317
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 16136
+Final board state:
+    4    32   512     4 
+    8    64   128   256 
+    2  1024    32     8 
+    4     8    16     4 
+
+
+=== Performance Statistics ===
+Total moves: 944
+Final score: 16136
+Total time: 12.052 seconds
+Average time per move: 12.767 ms
+Moves per second: 78.329
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 3044
+Final board state:
+    4     2     8     2 
+    2     8    32    64 
+  256    16     8     4 
+    4   128     2     8 
+
+
+=== Performance Statistics ===
+Total moves: 249
+Final score: 3044
+Total time: 3.778 seconds
+Average time per move: 15.171 ms
+Moves per second: 65.914
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 34588
+Final board state:
+    2     8   128     2 
+   16    64  1024     8 
+ 2048    32   512    32 
+    2     4     8     2 
+
+
+=== Performance Statistics ===
+Total moves: 1781
+Final score: 34588
+Total time: 21.677 seconds
+Average time per move: 12.171 ms
+Moves per second: 82.162
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 35524
+Final board state:
+    2     4    16     8 
+ 1024    32   512   256 
+    4    64  2048    32 
+    2     8     2     4 
+
+
+=== Performance Statistics ===
+Total moves: 1824
+Final score: 35524
+Total time: 21.811 seconds
+Average time per move: 11.958 ms
+Moves per second: 83.629
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 23048
+Final board state:
+    2     4     2     4 
+    4     2    16     8 
+    8    16   128     2 
+    4    64   256  2048 
+
+
+=== Performance Statistics ===
+Total moves: 1167
+Final score: 23048
+Total time: 15.051 seconds
+Average time per move: 12.897 ms
+Moves per second: 77.535
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 7180
+Final board state:
+    2     4     8     4 
+   32   256    32     8 
+   16   128    64    16 
+    8   512     4     2 
+
+
+=== Performance Statistics ===
+Total moves: 493
+Final score: 7180
+Total time: 6.813 seconds
+Average time per move: 13.820 ms
+Moves per second: 72.359
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 14332
+Final board state:
+    2     8     4     2 
+    4    16   128     8 
+   64     8  1024   512 
+    4    32     2     4 
+
+
+=== Performance Statistics ===
+Total moves: 831
+Final score: 14332
+Total time: 11.158 seconds
+Average time per move: 13.427 ms
+Moves per second: 74.477
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 26124
+Final board state:
+  256     2     8   512 
+    2  2048    16     2 
+    4     8    32     8 
+    2     4     8     2 
+
+
+=== Performance Statistics ===
+Total moves: 1331
+Final score: 26124
+Total time: 16.929 seconds
+Average time per move: 12.719 ms
+Moves per second: 78.622
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 34748
+Final board state:
+    2    16     2     8 
+    4   128    32  2048 
+   64   512  1024    64 
+    2     4    16     8 
+
+
+=== Performance Statistics ===
+Total moves: 1785
+Final score: 34748
+Total time: 21.450 seconds
+Average time per move: 12.017 ms
+Moves per second: 83.217
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 16164
+Final board state:
+    2  1024    16     8 
+    8    64   512     2 
+    4    32   256    32 
+    2     8   128     4 
+
+
+=== Performance Statistics ===
+Total moves: 951
+Final score: 16164
+Total time: 11.968 seconds
+Average time per move: 12.584 ms
+Moves per second: 79.465
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 14344
+Final board state:
+    2    32     2     4 
+    4   128   512    16 
+    8    64    16     8 
+    2     4  1024     2 
+
+
+=== Performance Statistics ===
+Total moves: 830
+Final score: 14344
+Total time: 10.742 seconds
+Average time per move: 12.942 ms
+Moves per second: 77.270
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 36260
+Final board state:
+    2    16   512     4 
+ 2048   256    64    16 
+    8    16  1024    32 
+    2   128     4     8 
+
+
+=== Performance Statistics ===
+Total moves: 1886
+Final score: 36260
+Total time: 21.988 seconds
+Average time per move: 11.658 ms
+Moves per second: 85.775
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 12080
+Final board state:
+    8     2     4     2 
+ 1024    16    32     4 
+    4   128    64   256 
+    2     8     4     2 
+
+
+=== Performance Statistics ===
+Total moves: 717
+Final score: 12080
+Total time: 9.563 seconds
+Average time per move: 13.337 ms
+Moves per second: 74.977
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 35832
+Final board state:
+    4    16    64     2 
+   32    64   512    16 
+    4  2048  1024   256 
+    2     8    16     4 
+
+
+=== Performance Statistics ===
+Total moves: 1860
+Final score: 35832
+Total time: 21.746 seconds
+Average time per move: 11.691 ms
+Moves per second: 85.534
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 36320
+Final board state:
+    2     4    32     4 
+   64   256  2048    16 
+ 1024   512    32   128 
+    4    16     8     4 
+
+
+=== Performance Statistics ===
+Total moves: 1890
+Final score: 36320
+Total time: 22.244 seconds
+Average time per move: 11.770 ms
+Moves per second: 84.965
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 27632
+Final board state:
+    4     8    32     2 
+    8   256  2048     4 
+  128    16   128    16 
+    2     8   512     8 
+
+
+=== Performance Statistics ===
+Total moves: 1445
+Final score: 27632
+Total time: 17.419 seconds
+Average time per move: 12.054 ms
+Moves per second: 82.958
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 14496
+Final board state:
+    2     4     2     8 
+   16  1024    32   512 
+   32    64   128     4 
+    2     8    32     2 
+
+
+=== Performance Statistics ===
+Total moves: 839
+Final score: 14496
+Total time: 10.657 seconds
+Average time per move: 12.702 ms
+Moves per second: 78.725
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 16092
+Final board state:
+    2     4    16     4 
+    8    32    64     8 
+  512   256   128    16 
+    4     2  1024     4 
+
+
+=== Performance Statistics ===
+Total moves: 946
+Final score: 16092
+Total time: 12.259 seconds
+Average time per move: 12.958 ms
+Moves per second: 77.170
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 16016
+Final board state:
+    2     8    32     2 
+    8   512  1024    64 
+    4   256    16   128 
+    2     8     2     8 
+
+
+=== Performance Statistics ===
+Total moves: 930
+Final score: 16016
+Total time: 11.512 seconds
+Average time per move: 12.379 ms
+Moves per second: 80.785
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 32300
+Final board state:
+    8  1024     2     4 
+    4   128    32    16 
+   32   256    64     8 
+    2    16  2048     2 
+
+
+=== Performance Statistics ===
+Total moves: 1653
+Final score: 32300
+Total time: 19.712 seconds
+Average time per move: 11.925 ms
+Moves per second: 83.855
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 7104
+Final board state:
+    4   256   128     2 
+   16   512    64    16 
+    8    16    32     4 
+    4     2     8     2 
+
+
+=== Performance Statistics ===
+Total moves: 487
+Final score: 7104
+Total time: 6.627 seconds
+Average time per move: 13.608 ms
+Moves per second: 73.487
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 34428
+Final board state:
+    2     4   512     2 
+    4    32   128     8 
+    8    16  1024  2048 
+    2     4    64     8 
+
+
+=== Performance Statistics ===
+Total moves: 1758
+Final score: 34428
+Total time: 21.201 seconds
+Average time per move: 12.060 ms
+Moves per second: 82.921
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 16024
+Final board state:
+    8    16   256     4 
+  512   128  1024     2 
+    2    64     8    16 
+    4     8     4     2 
+
+
+=== Performance Statistics ===
+Total moves: 945
+Final score: 16024
+Total time: 11.967 seconds
+Average time per move: 12.663 ms
+Moves per second: 78.968
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 25420
+Final board state:
+    2    16     2    64 
+    8   512     4     8 
+    2     8    32   128 
+    8  2048     4     2 
+
+
+=== Performance Statistics ===
+Total moves: 1298
+Final score: 25420
+Total time: 16.379 seconds
+Average time per move: 12.619 ms
+Moves per second: 79.245
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 16076
+Final board state:
+    2    16  1024     4 
+   16   128    32     2 
+    4   512   256    64 
+    2    16     8     4 
+
+
+=== Performance Statistics ===
+Total moves: 938
+Final score: 16076
+Total time: 12.402 seconds
+Average time per move: 13.222 ms
+Moves per second: 75.634
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 36068
+Final board state:
+    2     4    16     4 
+   16   128  1024    64 
+    8   256  2048     2 
+    4    16   512     4 
+
+
+=== Performance Statistics ===
+Total moves: 1856
+Final score: 36068
+Total time: 23.666 seconds
+Average time per move: 12.751 ms
+Moves per second: 78.425
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 16176
+Final board state:
+    8   256     8    16 
+   32   512    64     4 
+    4   128    32     2 
+    2  1024     2     4 
+
+
+=== Performance Statistics ===
+Total moves: 955
+Final score: 16176
+Total time: 12.100 seconds
+Average time per move: 12.670 ms
+Moves per second: 78.926
+Running with 1 boards and 100 simulations per move
+Using Explore Score MCTS
+OpenMP threads: 8
+Game over! Total points: 27064
+Final board state:
+   32     2     4     8 
+    2     8    64     2 
+    4   128   256  2048 
+    2     8    16   512 
+
+
+=== Performance Statistics ===
+Total moves: 1389
+Final score: 27064
+Total time: 18.416 seconds
+Average time per move: 13.259 ms
+Moves per second: 75.423

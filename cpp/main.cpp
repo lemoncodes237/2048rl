@@ -21,8 +21,16 @@ typedef MCTSRandom MCTSImpl;
 #include "score/mcts_score.h"
 typedef MCTSScore MCTSImpl;
 #endif
-#ifdef USE_EXPLORE_SCORE
+#ifdef USE_PUCT_SINGLE
 #include "pUCT/mcts_pUCT.h"
+typedef MCTSpUCT MCTSImpl;
+#endif
+#ifdef USE_PUCT_MULTIPLE
+#include "pUCT_multiple/mcts_pUCT.h"
+typedef MCTSpUCT MCTSImpl;
+#endif
+#ifdef USE_PUCT_MIN_MULTIPLE
+#include "pUCT_min_multiple/mcts_pUCT.h"
 typedef MCTSpUCT MCTSImpl;
 #endif
 
@@ -75,19 +83,25 @@ int main(int argc, char* argv[]) {
               << num_simulations << " simulations per move\n";
     
     #ifdef USE_RANDOM_RANDOM
-    std::cout << "Using Random-Random MCTS\n";
+    std::cout << "Using Random-Random MC\n";
     #endif
     #ifdef USE_MERGE
-    std::cout << "Using Merge MCTS\n";
+    std::cout << "Using Merge MC\n";
     #endif
     #ifdef USE_RANDOM
-    std::cout << "Using Standard MCTS\n";
+    std::cout << "Using Standard MC\n";
     #endif
     #ifdef USE_SCORE
-    std::cout << "Using Score MCTS\n";
+    std::cout << "Using Score MC\n";
     #endif
-    #ifdef USE_EXPLORE_SCORE
-    std::cout << "Using Explore Score MCTS\n";
+    #ifdef USE_PUCT_SINGLE
+    std::cout << "Using Single pUCT MCTS\n";
+    #endif
+    #ifdef USE_PUCT_MULTIPLE
+    std::cout << "Using Multiple pUCT MCTS\n";
+    #endif
+    #ifdef USE_PUCT_MIN_MULTIPLE
+    std::cout << "Using Min-Multiple pUCT MCTS\n";
     #endif
     
     #ifdef _OPENMP

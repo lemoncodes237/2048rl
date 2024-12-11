@@ -7,6 +7,7 @@ class Game2048 {
 public:
     Game2048(int numBoards);
     Game2048(const Game2048& other);  // Copy constructor for MCTS
+    Game2048(std::vector<int>& board); // Constructor for pre set board
 
     int numBoards;
     
