@@ -2,9 +2,10 @@
 
 # Default values
 N=100
-PARALLEL_RUNS=32
+PARALLEL_RUNS=16
 MCTS_TYPE="explorescore"
-SIMULATIONS=100
+SIMULATIONS=250
+C_VALUE=900  # Default C value
 DATA_DIR="data"
 RESULTS_DIR="results"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
@@ -37,6 +38,10 @@ while [[ $# -gt 0 ]]; do
             SIMULATIONS="$2"
             shift 2
             ;;
+        -c|--c-value)
+            C_VALUE="$2"
+            shift 2
+            ;;
         *)
             echo "Unknown parameter: $1"
             exit 1
@@ -44,8 +49,8 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# Define output files - include simulation count in filename
-BASE_NAME="${MCTS_TYPE}_sims${SIMULATIONS}_${TIMESTAMP}"
+# Define output files - include simulation count and C value in filename
+BASE_NAME="${MCTS_TYPE}_sims${SIMULATIONS}_C${C_VALUE}_${TIMESTAMP}"
 OUTPUT_FILE="$DATA_DIR/${BASE_NAME}.csv"
 TEMP_DIR="$DATA_DIR/temp_${TIMESTAMP}"
 mkdir -p "$TEMP_DIR"
@@ -55,6 +60,7 @@ echo "- Number of experiments: $N"
 echo "- MCTS simulations: $SIMULATIONS"
 echo "- Parallel units: $PARALLEL_RUNS"
 echo "- MCTS type: $MCTS_TYPE"
+echo "- C value: $C_VALUE"
 
 # Compile with specified MCTS type
 echo -e "\nCompiling with MCTS_TYPE=$MCTS_TYPE..."
@@ -62,7 +68,7 @@ make clean
 make MCTS_TYPE=$MCTS_TYPE || { echo "Compilation failed"; exit 1; }
 
 # Create CSV header
-echo "experiment,max_tile,score,runtime_ms" > "$OUTPUT_FILE"
+echo "experiment,max_tile,score,runtime_ms,c_value" > "$OUTPUT_FILE"
 
 if [[ ${USES_OPENMP[$MCTS_TYPE]} ]]; then
     echo "Using OpenMP parallelization (${PARALLEL_RUNS} threads)..."
@@ -72,8 +78,8 @@ if [[ ${USES_OPENMP[$MCTS_TYPE]} ]]; then
         echo "Running experiment $i/$N"
         
         start_time=$(date +%s%N)
-        # Use OpenMP threads for internal parallelization, pass simulation count
-        game_output=$(OMP_NUM_THREADS=$PARALLEL_RUNS ./game2048 1 $SIMULATIONS 2>&1)
+        # Use OpenMP threads for internal parallelization, pass simulation count and C value
+        game_output=$(OMP_NUM_THREADS=$PARALLEL_RUNS ./game2048 1 $SIMULATIONS $C_VALUE 2>&1)
         end_time=$(date +%s%N)
         duration_ms=$(( (end_time - start_time) / 1000000 ))
         
@@ -82,8 +88,8 @@ if [[ ${USES_OPENMP[$MCTS_TYPE]} ]]; then
         board_state=$(echo "$game_output" | grep -A4 "Final board state:" | tail -n 4 | tr -s ' ' | sed 's/^ //' | awk '{print $1, $2, $3, $4}')
         max_tile=$(echo "$board_state" | tr ' ' '\n' | sort -nr | head -n1)
         
-        # Save result
-        echo "$i,$max_tile,$score,$duration_ms" >> "$OUTPUT_FILE"
+        # Save result with C value
+        echo "$i,$max_tile,$score,$duration_ms,$C_VALUE" >> "$OUTPUT_FILE"
         
         # Save log
         echo -e "\nExperiment $i output:\n$game_output\n----------------------------------------" >> "$DATA_DIR/logs/${BASE_NAME}.log"
@@ -98,8 +104,8 @@ else
         local log_file="$TEMP_DIR/log_${exp_num}.txt"
         
         start_time=$(date +%s%N)
-        # Pass simulation count to game2048
-        ./game2048 1 $SIMULATIONS > "$log_file" 2>&1
+        # Pass simulation count and C value to game2048
+        ./game2048 1 $SIMULATIONS $C_VALUE > "$log_file" 2>&1
         end_time=$(date +%s%N)
         duration_ms=$(( (end_time - start_time) / 1000000 ))
         
@@ -107,11 +113,11 @@ else
         board_state=$(grep -A4 "Final board state:" "$log_file" | tail -n 4 | tr -s ' ' | sed 's/^ //' | awk '{print $1, $2, $3, $4}')
         max_tile=$(echo "$board_state" | tr ' ' '\n' | sort -nr | head -n1)
         
-        echo "$exp_num,$max_tile,$score,$duration_ms" > "$result_file"
+        echo "$exp_num,$max_tile,$score,$duration_ms,$C_VALUE" > "$result_file"
         echo "Completed experiment $exp_num"
     }
     
-    export SIMULATIONS  # Make available to subprocesses
+    export SIMULATIONS C_VALUE  # Make available to subprocesses
     
     # Run experiments in batches
     completed=0

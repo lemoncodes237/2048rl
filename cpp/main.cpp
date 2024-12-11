@@ -35,8 +35,8 @@ struct GameStats {
     double avg_time_per_move;
 };
 
-GameStats run_game(int num_boards, int num_simulations) {
-    MCTSImpl mcts(num_boards, num_simulations);
+GameStats run_game(int num_boards, int num_simulations, double c_param) {
+    MCTSImpl mcts(num_boards, num_simulations, c_param);
     GameStats stats = {0, 0, 0.0, 0.0};
     auto start_time = high_resolution_clock::now();
     
@@ -65,10 +65,12 @@ void print_stats(const GameStats& stats) {
 int main(int argc, char* argv[]) {
     int num_boards = 1;
     int num_simulations = 250;
-    
+    double c_param = 800.0;  // Default C value
+
     if (argc > 1) num_boards = std::atoi(argv[1]);
     if (argc > 2) num_simulations = std::atoi(argv[2]);
-    
+    if (argc > 3) c_param = std::atof(argv[3]);
+
     std::cout << "Running with " << num_boards << " boards and " 
               << num_simulations << " simulations per move\n";
     
@@ -92,7 +94,7 @@ int main(int argc, char* argv[]) {
     std::cout << "OpenMP threads: " << omp_get_max_threads() << "\n";
     #endif
     
-    auto stats = run_game(num_boards, num_simulations);
+    auto stats = run_game(num_boards, num_simulations, c_param);
     print_stats(stats);
     return 0;
 }
