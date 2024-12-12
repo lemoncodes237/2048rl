@@ -7,7 +7,7 @@
 #include <omp.h>
 #include <iomanip>
 #include <cmath>
-MCTSMerge::MCTSMerge(int n, int simulations) 
+MCTSMerge::MCTSMerge(int n, int simulations, double c_param) 
     : game(n), simulations(simulations), points(0) {
     // Enable nested parallelism
     omp_set_nested(1);

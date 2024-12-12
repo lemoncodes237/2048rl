@@ -6,7 +6,7 @@
 #include <iostream>
 #include <omp.h>
 #include <iomanip>
-MCTSRandom::MCTSRandom(int n, int simulations) 
+MCTSRandom::MCTSRandom(int n, int simulations, double c_param) 
     : game(n), simulations(simulations), points(0) {
     // Enable nested parallelism
     omp_set_nested(1);

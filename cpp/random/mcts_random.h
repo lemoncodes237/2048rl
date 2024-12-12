@@ -4,7 +4,7 @@
 
 class MCTSRandom {
 public:
-    MCTSRandom(int n, int simulations);
+    MCTSRandom(int n, int simulations, double c_param);
     bool makeMove();  // Returns true if game is over
     int getPoints() const { return points; }
     const Game2048& getGame() const { return game; }

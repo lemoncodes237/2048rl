@@ -2,10 +2,10 @@
 
 # Default values
 N=100
-PARALLEL_RUNS=16
-MCTS_TYPE="explorescore"
-SIMULATIONS=250
-C_VALUE=900  # Default C value
+PARALLEL_RUNS=32
+MCTS_TYPE="random"
+SIMULATIONS=500
+C_VALUE=600  # Default C value
 DATA_DIR="data"
 RESULTS_DIR="results"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
@@ -79,7 +79,7 @@ if [[ ${USES_OPENMP[$MCTS_TYPE]} ]]; then
         
         start_time=$(date +%s%N)
         # Use OpenMP threads for internal parallelization, pass simulation count and C value
-        game_output=$(OMP_NUM_THREADS=$PARALLEL_RUNS ./game2048 1 $SIMULATIONS $C_VALUE 2>&1)
+        game_output=$(OMP_NUM_THREADS=$PARALLEL_RUNS ./game2048 2 $SIMULATIONS $C_VALUE 2>&1)
         end_time=$(date +%s%N)
         duration_ms=$(( (end_time - start_time) / 1000000 ))
         
@@ -105,7 +105,7 @@ else
         
         start_time=$(date +%s%N)
         # Pass simulation count and C value to game2048
-        ./game2048 1 $SIMULATIONS $C_VALUE > "$log_file" 2>&1
+        ./game2048 2 $SIMULATIONS $C_VALUE > "$log_file" 2>&1
         end_time=$(date +%s%N)
         duration_ms=$(( (end_time - start_time) / 1000000 ))
         

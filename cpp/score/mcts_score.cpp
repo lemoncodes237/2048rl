@@ -7,7 +7,7 @@
 #include <omp.h>
 #include <iomanip>
 #include <cmath>
-MCTSScore::MCTSScore(int n, int simulations) 
+MCTSScore::MCTSScore(int n, int simulations, double c_param) 
     : game(n), simulations(simulations), points(0) {
     // Enable nested parallelism
     omp_set_nested(1);

@@ -19,9 +19,9 @@ public:
 
 class MCTSpUCT {
 public:
-    double C = 800;
+    double C;
 
-    MCTSpUCT(int n, int simulations);
+    MCTSpUCT(int n, int simulations, double c_param = 800.0);  // Added C parameter with default
     unsigned long getBoardNum(Game2048* currGame);
     int selectAction(pUCTNode* node);
     double sample(pUCTNode* node, Game2048* currGame);
