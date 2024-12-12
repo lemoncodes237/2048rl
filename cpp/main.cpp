@@ -33,6 +33,10 @@ typedef MCTSpUCT MCTSImpl;
 #include "pUCT_min_multiple/mcts_pUCT.h"
 typedef MCTSpUCT MCTSImpl;
 #endif
+#ifdef USE_PUCT_COMB_MULTIPLE
+#include "pUCT_comb_multiple/mcts_pUCT.h"
+typedef MCTSpUCT MCTSImpl;
+#endif
 
 using namespace std::chrono;
 
@@ -73,7 +77,7 @@ void print_stats(const GameStats& stats) {
 int main(int argc, char* argv[]) {
     int num_boards = 1;
     int num_simulations = 250;
-    double c_param = 800.0;  // Default C value
+    double c_param = 600.0;  // Default C value
 
     if (argc > 1) num_boards = std::atoi(argv[1]);
     if (argc > 2) num_simulations = std::atoi(argv[2]);
@@ -102,6 +106,9 @@ int main(int argc, char* argv[]) {
     #endif
     #ifdef USE_PUCT_MIN_MULTIPLE
     std::cout << "Using Min-Multiple pUCT MCTS\n";
+    #endif
+    #ifdef USE_PUCT_COMB_MULTIPLE
+    std::cout << "Using Combination-Multiple pUCT MCTS\n";
     #endif
     
     #ifdef _OPENMP

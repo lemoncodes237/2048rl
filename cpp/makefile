@@ -32,6 +32,10 @@ ifeq ($(MCTS_TYPE), puctminmult)
 	MCTS_SRC = pUCT_min_multiple/mcts_pUCT.cpp
 	CXXFLAGS += -DUSE_PUCT_MIN_MULTIPLE
 endif
+ifeq ($(MCTS_TYPE), puctcombmult)
+	MCTS_SRC = pUCT_comb_multiple/mcts_pUCT.cpp
+	CXXFLAGS += -DUSE_PUCT_COMB_MULTIPLE
+endif
 
 TARGET = game2048
 SRCS = main.cpp env2048.cpp $(MCTS_SRC)

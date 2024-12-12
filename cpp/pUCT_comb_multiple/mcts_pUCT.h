@@ -4,27 +4,25 @@
 
 class pUCTNode {
 public:
-    pUCTNode(std::vector<unsigned long> state, bool chance, int a);
+    pUCTNode(unsigned long state, bool chance, int a);
     std::vector<pUCTNode*> children;
     double value;
     double visits;
     bool chance;
     // action is for chance node only
     int action;
-    std::vector<unsigned long> state;
+    unsigned long state;
 
     void incrementVisits();
     void increaseValue(double v);
-    bool matches(std::vector<unsigned long> state2);
 };
 
 class MCTSpUCT {
 public:
-
-    MCTSpUCT(int n, int simulations, double c_param = 800.0);  // Added C parameter with default
-    unsigned long getBoardNum(Game2048* currGame, int gameNum);
+    MCTSpUCT(int n, int simulations, double C);
+    unsigned long getBoardNum(Game2048* currGame, int gameIndex);
     int selectAction(pUCTNode* node);
-    double sample(pUCTNode* node, Game2048* currGame);
+    double sample(pUCTNode* node, Game2048* currGame, int gameIndex, int acquired);
     void clearTree(pUCTNode* node, bool skipDelete);
     bool makeMove();  // Returns true if game is over
     int getPoints() const { return points; }
@@ -35,6 +33,5 @@ private:
     Game2048 game;
     int simulations;
     int points;
-    int acquired;
     double C;
 };
