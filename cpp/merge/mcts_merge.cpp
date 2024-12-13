@@ -1,4 +1,4 @@
-// mcts_random.cpp
+// mcts_merge.cpp
 #include "mcts_merge.h"
 #include <random>
 #include <algorithm>

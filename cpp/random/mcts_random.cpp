@@ -25,7 +25,6 @@ int MCTSRandom::randomToEnd(int move) {
     // First apply the move we're testing
     auto result = gameCopy.move(move);
     int score = result.reward;
-    //int score = 0;
     
     // Then do random moves until game over
     std::mt19937 gen(std::random_device{}());
@@ -35,12 +34,6 @@ int MCTSRandom::randomToEnd(int move) {
         result = gameCopy.move(dis(gen));
         score += result.reward;
     }
-
-    /*for(auto board : gameCopy.getBoards())  {
-        for(int i = 0; i < 16; i++)  {
-            score += board[i];
-        }
-    }*/
     
     return score;
 }
@@ -78,17 +71,7 @@ bool MCTSRandom::makeMove() {
         }
     }
 
-    /*std::cout << "Board state\n";
-    for (const auto& board : game.getBoards()) {
-        for (int i = 0; i < 16; i++) {
-            std::cout << std::setw(5) << board[i] << " ";
-            if ((i + 1) % 4 == 0) std::cout << std::endl;
-        }
-        std::cout << std::endl;
-    }*/
-    //std::cout << "Rewards:\n" << rewards[0] << std::endl;
     for (int move = 1; move < 4; move++) {
-        //std::cout << rewards[move] << std::endl;
         if (rewards[move] > bestScore) {
             bestScore = rewards[move];
             bestMove = move;

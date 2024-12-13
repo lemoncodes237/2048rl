@@ -1,4 +1,4 @@
-// mcts_random.cpp
+// mcts_pUCT.cpp
 #include "mcts_pUCT.h"
 #include <random>
 #include <algorithm>
@@ -7,6 +7,9 @@
 #include <omp.h>
 #include <iomanip>
 #include <cassert>
+
+// Oblivious pUCT
+
 MCTSpUCT::MCTSpUCT(int n, int simulations, double C) 
     : game(n), simulations(4*simulations), points(0), C(C) {
     // Enable nested parallelism
@@ -31,6 +34,7 @@ pUCTNode::pUCTNode(unsigned long state, bool chance, int a)
 void pUCTNode::incrementVisits()  { visits++; }
 void pUCTNode::increaseValue(double v) { value += v; }
 
+// Merge policy
 int MCTSpUCT::moveToEnd(Game2048* currGame) {
     // Create a fresh copy for this simulation
     Game2048 gameCopy(*currGame);
@@ -82,6 +86,7 @@ int MCTSpUCT::moveToEnd(Game2048* currGame) {
     return score;
 }
 
+// Random policy
 /*int MCTSpUCT::moveToEnd(Game2048* currGame) {
     // Create a fresh copy for this simulation
     Game2048 gameCopy(*currGame);
@@ -137,7 +142,6 @@ unsigned long MCTSpUCT::getBoardNum(Game2048* currGame, int gameIndex)  {
 
 int MCTSpUCT::selectAction(pUCTNode* node)  {
     if(node->children.size() != 4)  {
-        //std::cout << "Not enough children\n";
         std::mt19937 gen(std::random_device{}());
         std::uniform_int_distribution<> dis(0, 3 - node->children.size());
         int take = dis(gen);
@@ -164,7 +168,6 @@ int MCTSpUCT::selectAction(pUCTNode* node)  {
 
         for(auto child : node->children)  {
             double ucb = child->value / child->visits + C * sqrt(log(node->visits) / child->visits);
-            //std::cout << "UCB " << ucb << "\n";
             if(ucb > bestUCB)  {
                 bestUCB = ucb;
                 a = child->action;
@@ -187,7 +190,6 @@ double MCTSpUCT::sample(pUCTNode* node, Game2048* currGame, int gameIndex, int a
 
         for(auto child : children)  {
             if(child->state == state)  {
-                //std::cout << "Already had child with state " << state << "\n";
                 curr = child;
                 break;
             }
@@ -227,8 +229,6 @@ double MCTSpUCT::sample(pUCTNode* node, Game2048* currGame, int gameIndex, int a
     }
 
     node->visits += 1;
-
-    //std::cout << "Returning " << node->value-before << "\n";
 
     return node->value - before;
 }
@@ -273,11 +273,8 @@ bool MCTSpUCT::makeMove() {
 
             for(auto child : node.children)  {
                 if(child->action == move)  {
-                    //visits[move] += child->visits;
-                    //rewards[move] += child->value;
                     float val = (float) child->value / child->visits;
                     rewards[move] += val;
-                    //if(rewards[move] > val || rewards[move] == 0) rewards[move] = val;
                     break;
                 }
             }

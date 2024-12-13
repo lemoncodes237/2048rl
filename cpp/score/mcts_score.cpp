@@ -1,4 +1,4 @@
-// mcts_random.cpp
+// mcts_score.cpp
 #include "mcts_score.h"
 #include <random>
 #include <algorithm>
@@ -7,6 +7,9 @@
 #include <omp.h>
 #include <iomanip>
 #include <cmath>
+
+// This uses a policy that tries to maximize score in initial move. Did not work well, so scrapped.
+
 MCTSScore::MCTSScore(int n, int simulations, double c_param) 
     : game(n), simulations(simulations), points(0) {
     // Enable nested parallelism
@@ -30,7 +33,7 @@ int MCTSScore::moveToEnd(int move) {
     std::mt19937 gen(std::random_device{}());
     std::uniform_real_distribution<> dis(0.0, 1.0);
     
-    // Then do moves that maximize the merges until game over
+    // Then do moves that maximize the scores
     while (!result.gameOver) {
         // Test each possible move
         std::vector<double> scores(4);

@@ -1,4 +1,4 @@
-// mcts_random.cpp
+// mcts_pUCT.cpp
 #include "mcts_pUCT.h"
 #include <random>
 #include <algorithm>
@@ -7,6 +7,9 @@
 #include <omp.h>
 #include <iomanip>
 #include <cassert>
+
+// pUCT for multiple games. Not Oblivious pUCT. Oblivious pUCT is in pUCT_comb_multiple/mcts_pUCT.cpp.
+
 MCTSpUCT::MCTSpUCT(int n, int simulations, double c_param) 
     : game(n), simulations(4*simulations), points(0), acquired(0), C(c_param) {
     // Enable nested parallelism
@@ -105,12 +108,6 @@ int MCTSpUCT::moveToEnd(Game2048* currGame) {
         ++moves;
     }
 
-    //for(auto board : gameCopy.getBoards())  {
-    //    for(int i = 0; i < 16; i++)  {
-    //        score += board[i];
-    //    }
-    //}
-    
     return score;
 }
 
@@ -137,7 +134,6 @@ unsigned long MCTSpUCT::getBoardNum(Game2048* currGame, int gameNum)  {
 
 int MCTSpUCT::selectAction(pUCTNode* node)  {
     if(node->children.size() != 4)  {
-        //std::cout << "Not enough children\n";
         std::mt19937 gen(std::random_device{}());
         std::uniform_int_distribution<> dis(0, 3 - node->children.size());
         int take = dis(gen);
@@ -164,7 +160,6 @@ int MCTSpUCT::selectAction(pUCTNode* node)  {
 
         for(auto child : node->children)  {
             double ucb = child->value / child->visits + C * sqrt(log(node->visits) / child->visits);
-            //std::cout << "UCB " << ucb << "\n";
             if(ucb > bestUCB)  {
                 bestUCB = ucb;
                 a = child->action;
@@ -186,7 +181,6 @@ bool pUCTNode::matches(std::vector<unsigned long> state2)  {
 }
 
 double MCTSpUCT::sample(pUCTNode* node, Game2048* currGame)  {
-    // Create a fresh copy for this simulation
     double before = node->value;
 
     if(node->chance)  {
@@ -200,7 +194,6 @@ double MCTSpUCT::sample(pUCTNode* node, Game2048* currGame)  {
 
         for(auto child : children)  {
             if(child->matches(state))  {
-                //std::cout << "Already had child with state " << state << "\n";
                 curr = child;
                 break;
             }
@@ -236,9 +229,6 @@ double MCTSpUCT::sample(pUCTNode* node, Game2048* currGame)  {
 
         acquired = result.reward;
 
-        // Comment out for total score, not for board sum.
-        // acquired = 0;
-
         if(result.gameOver)  {
             curr->visits++;
         } else  {
@@ -252,8 +242,6 @@ double MCTSpUCT::sample(pUCTNode* node, Game2048* currGame)  {
     }
 
     node->visits += 1;
-
-    //std::cout << "Returning " << node->value-before << "\n";
 
     return node->value - before;
 }
@@ -273,30 +261,20 @@ void MCTSpUCT::clearTree(pUCTNode* node, bool skipDelete)  {
 
 bool MCTSpUCT::makeMove() {
     std::vector<float> rewards(4);
+
+    std::vector<unsigned long> board(game.numBoards);
+    for(int i = 0; i < game.numBoards; i++)  {
+        board[i] = getBoardNum(&game, i);
+    }
     
-    // Test each possible move
-    //for (int move = 0; move < 4; move++) {
-        // Test if move is valid using a temporary copy
+    pUCTNode node(board, false, -1);
 
-        std::vector<unsigned long> board(game.numBoards);
-        for(int i = 0; i < game.numBoards; i++)  {
-            board[i] = getBoardNum(&game, i);
-        }
-        
-        pUCTNode node(board, false, -1);
+    // pUCT loop
+    for(int sim = 0; sim < simulations; sim++)  {
+        Game2048 copyGame(game);
 
-        for(int sim = 0; sim < simulations; sim++)  {
-            Game2048 copyGame(game);
-
-            //std::cout << "Calling sample\n";
-            sample(&node, &copyGame);
-        }
-
-        //#pragma omp parallel for reduction(+:score_sum)
-        //for (int sim = 0; sim < simulations; sim++) {
-        //    score_sum += randomToEnd(move);
-        //}
-    //}
+        sample(&node, &copyGame);
+    }
 
     std::vector<double> valuevalue(4);
     std::vector<double> visitsvisits(4);

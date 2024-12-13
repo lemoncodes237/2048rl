@@ -1,4 +1,4 @@
-// mcts_random.cpp
+// mcts_pUCT.cpp
 #include "mcts_pUCT.h"
 #include <random>
 #include <algorithm>
@@ -7,6 +7,9 @@
 #include <omp.h>
 #include <iomanip>
 #include <cassert>
+
+// pUCT multiple is not used for the project. This runs pUCT completely independently for each game.
+
 MCTSpUCT::MCTSpUCT(int n, int simulations, double c_param) 
     : game(n), simulations(4*simulations), points(0), acquired(0), C(c_param) {
     // Enable nested parallelism
