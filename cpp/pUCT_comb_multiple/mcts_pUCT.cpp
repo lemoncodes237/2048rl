@@ -31,7 +31,7 @@ pUCTNode::pUCTNode(unsigned long state, bool chance, int a)
 void pUCTNode::incrementVisits()  { visits++; }
 void pUCTNode::increaseValue(double v) { value += v; }
 
-/*int MCTSpUCT::moveToEnd(Game2048* currGame) {
+int MCTSpUCT::moveToEnd(Game2048* currGame) {
     // Create a fresh copy for this simulation
     Game2048 gameCopy(*currGame);
     
@@ -80,9 +80,9 @@ void pUCTNode::increaseValue(double v) { value += v; }
     }
     
     return score;
-}*/
+}
 
-int MCTSpUCT::moveToEnd(Game2048* currGame) {
+/*int MCTSpUCT::moveToEnd(Game2048* currGame) {
     // Create a fresh copy for this simulation
     Game2048 gameCopy(*currGame);
     
@@ -113,7 +113,7 @@ int MCTSpUCT::moveToEnd(Game2048* currGame) {
     //}
     
     return score;
-}
+}*/
 
 unsigned long MCTSpUCT::getBoardNum(Game2048* currGame, int gameIndex)  {
     unsigned long val = 0;

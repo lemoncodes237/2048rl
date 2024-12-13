@@ -7,13 +7,8 @@
 #include <omp.h>
 #include <iomanip>
 #include <cassert>
-<<<<<<< Updated upstream
 MCTSpUCT::MCTSpUCT(int n, int simulations, double c_param) 
     : game(n), simulations(4*simulations), points(0), acquired(0), C(c_param) {
-=======
-MCTSpUCT::MCTSpUCT(int n, int simulations, double C) 
-    : game(n), simulations(4*simulations), points(0), acquired(0), C(C) {
->>>>>>> Stashed changes
     // Enable nested parallelism
     omp_set_nested(1);
 }

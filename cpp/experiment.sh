@@ -2,14 +2,15 @@
 
 # Default values
 N=100
-PARALLEL_RUNS=32
-MCTS_TYPE="random"
+PARALLEL_RUNS=50
+MCTS_TYPE="merge"
 SIMULATIONS=500
-C_VALUE=600  # Default C value
-DATA_DIR="data"
-RESULTS_DIR="results"
+C_VALUE=500  # Default C value
+BOARDS=3     # Default number of boards
+DATA_DIR="data_final"
+RESULTS_DIR="results_final"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-
+EXTRA_NAME="merge"
 # Define which MCTS types use OpenMP
 declare -A USES_OPENMP
 USES_OPENMP=([random]=1 [merge]=1 [score]=1)
@@ -17,7 +18,7 @@ USES_OPENMP=([random]=1 [merge]=1 [score]=1)
 # Create directories
 mkdir -p "$DATA_DIR"
 mkdir -p "$RESULTS_DIR"
-mkdir -p "$DATA_DIR/logs"
+mkdir -p "$DATA_DIR/logs/"
 
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
@@ -42,6 +43,10 @@ while [[ $# -gt 0 ]]; do
             C_VALUE="$2"
             shift 2
             ;;
+        -b|--boards)
+            BOARDS="$2"
+            shift 2
+            ;;
         *)
             echo "Unknown parameter: $1"
             exit 1
@@ -50,7 +55,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Define output files - include simulation count and C value in filename
-BASE_NAME="${MCTS_TYPE}_sims${SIMULATIONS}_C${C_VALUE}_${TIMESTAMP}"
+BASE_NAME="${MCTS_TYPE}_${EXTRA_NAME}_${BOARDS}_boards_sims${SIMULATIONS}_C${C_VALUE}_${TIMESTAMP}"
 OUTPUT_FILE="$DATA_DIR/${BASE_NAME}.csv"
 TEMP_DIR="$DATA_DIR/temp_${TIMESTAMP}"
 mkdir -p "$TEMP_DIR"
@@ -61,6 +66,7 @@ echo "- MCTS simulations: $SIMULATIONS"
 echo "- Parallel units: $PARALLEL_RUNS"
 echo "- MCTS type: $MCTS_TYPE"
 echo "- C value: $C_VALUE"
+echo "- Number of boards: $BOARDS"
 
 # Compile with specified MCTS type
 echo -e "\nCompiling with MCTS_TYPE=$MCTS_TYPE..."
@@ -79,7 +85,7 @@ if [[ ${USES_OPENMP[$MCTS_TYPE]} ]]; then
         
         start_time=$(date +%s%N)
         # Use OpenMP threads for internal parallelization, pass simulation count and C value
-        game_output=$(OMP_NUM_THREADS=$PARALLEL_RUNS ./game2048 2 $SIMULATIONS $C_VALUE 2>&1)
+        game_output=$(OMP_NUM_THREADS=$PARALLEL_RUNS ./game2048 $BOARDS $SIMULATIONS $C_VALUE 2>&1)
         end_time=$(date +%s%N)
         duration_ms=$(( (end_time - start_time) / 1000000 ))
         
@@ -105,7 +111,7 @@ else
         
         start_time=$(date +%s%N)
         # Pass simulation count and C value to game2048
-        ./game2048 2 $SIMULATIONS $C_VALUE > "$log_file" 2>&1
+        ./game2048 $BOARDS $SIMULATIONS $C_VALUE > "$log_file" 2>&1
         end_time=$(date +%s%N)
         duration_ms=$(( (end_time - start_time) / 1000000 ))
         
@@ -117,7 +123,7 @@ else
         echo "Completed experiment $exp_num"
     }
     
-    export SIMULATIONS C_VALUE  # Make available to subprocesses
+    export SIMULATIONS C_VALUE BOARDS  # Make available to subprocesses
     
     # Run experiments in batches
     completed=0
